@@ -26,30 +26,21 @@ logger.info("SUCCESS: Connection to RDS MySQL instance succeeded")
 def handler(event, context):
     cur = connection.cursor()  
 ## Retrieve Data
-    query = "SELECT * FROM Clinic"    
+    query = "DELETE FROM Queue where (status = 'C' or status = 'M') and DATE_ADD(createdDT,INTERVAL 1 DAY) < CURDATE()"    
     cur.execute(query)
     connection.commit()
+    print(cur.rowcount, "record(s) affected")
 ## Construct body of the response object
-    
-    clinicList = []
-    rows = cur.fetchall()
-    for row in rows:
-        print("TEST {0} {1}".format(row[0],row[1]))
-        transactionResponse = {}
-        transactionResponse['id'] = row[0]
-        transactionResponse['name'] = row[1]
-        clinicList.append(transactionResponse)
-
+    # transactionResponse = {}
 # Construct http response object
-    responseObject = {}
-    #responseObject['statusCode'] = 200
-    #responseObject['headers'] = {}
-    #responseObject['headers']['Content-Type']='application/json'
-    #responseObject['headers']['Access-Control-Allow-Origin']='*'
-    responseObject['data']= clinicList
-    # responseObject['body'] = json.dumps(transactionResponse, sort_keys=True,default=str)
+    # responseObject = {}
+    # responseObject['statusCode'] = 200
+    # responseObject['headers'] = {}
+    # responseObject['headers']['Content-Type']='application/json'
+    # responseObject['headers']['Access-Control-Allow-Origin']='*'
+    # responseObject['data'] = json.dumps(transactionResponse, sort_keys=True,default=str)
     
     #k = json.loads(responseObject['body'])
     #print(k['uin'])
 
-    return responseObject
+    # return responseObject
