@@ -42,5 +42,4 @@ def handler(event, context):
     
     #k = json.loads(responseObject['body'])
     #print(k['uin'])
-
     # return responseObject
